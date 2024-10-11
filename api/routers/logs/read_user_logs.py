@@ -20,6 +20,54 @@ async def read_user_logs(
         end_date: Optional[datetime] = None,
         db: Session = Depends(get_db)
 ) -> List[LogResponse]:
+    """
+    Retrieve log entries for a specific user.
+
+    This endpoint retrieves a list of log entries for the specified user from the database. It supports pagination through `skip` and `limit` parameters and allows filtering logs within a specific date range using `start_date` and `end_date`.
+
+    **Request:**
+      - **Method:** GET
+      - **URL:** /logs/{user_id}
+      - **Path Parameter:**
+        - **user_id** (integer, required): The ID of the user for whom to retrieve logs.
+      - **Query Parameters:**
+        - **skip** (integer, optional, default=0): Number of records to skip for pagination.
+        - **limit** (integer, optional, default=10): Maximum number of records to return.
+        - **start_date** (ISO 8601 datetime, optional): Filter logs created after this date and time.
+        - **end_date** (ISO 8601 datetime, optional): Filter logs created before this date and time.
+      - **Example:**
+        ```
+        GET /logs/123?skip=0&limit=5&start_date=2024-01-01T00:00:00Z&end_date=2024-12-31T23:59:59Z
+        ```
+
+    **Database Operations:**
+      - Filters logs for the user with the given `user_id`.
+      - Optionally filters logs within the specified `start_date` and `end_date`.
+      - Applies pagination using `skip` and `limit`.
+      - Retrieves the filtered and paginated list of logs for the user.
+
+    **Response:**
+      - Returns a list of log entries for the user as JSON objects.
+        - **Example:**
+          ```json
+          [
+              {
+                  "id": 1,
+                  "user_id": 123,
+                  "command": "/start",
+                  "response": "This bot was created as a test for the BobrAi company.",
+                  "timestamp": "2024-04-27T12:34:56Z"
+              },
+              {
+                  "id": 2,
+                  "user_id": 456,
+                  "command": "/start",
+                  "response": "This bot was created as a test for the BobrAi company.",
+                  "timestamp": "2024-04-28T09:15:30Z"
+              }
+          ]
+          ```
+    """
     try:
         query = db.query(Log).filter(Log.user_id == user_id)
         query = filter_logs(query, start_date, end_date)

@@ -17,8 +17,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(add_logs_router)
 app.include_router(read_logs_router)
+app.include_router(add_logs_router)
 app.include_router(read_user_logs_router)
 
 
