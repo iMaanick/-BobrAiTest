@@ -70,7 +70,7 @@ async def read_logs(
         query = filter_logs(query, start_date, end_date)
 
         logs = query.offset(skip).limit(limit).all()
-        return [LogResponse.from_orm(log) for log in logs]
+        return [LogResponse.model_validate(log) for log in logs]
     except Exception as e:
         db.rollback()
         raise HTTPException(status_code=500, detail="Internal Server Error")

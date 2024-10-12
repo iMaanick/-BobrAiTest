@@ -78,7 +78,7 @@ def test_read_logs_with_skip_and_limit(client: TestClient, setup_logs: None) -> 
 
 
 def test_read_logs_with_date_filter(client: TestClient, setup_logs: None) -> None:
-    start_date = (datetime.utcnow() - timedelta(days=2)).isoformat()
+    start_date = (datetime.utcnow() - timedelta(days=1, hours=2)).isoformat()
     end_date = datetime.utcnow().isoformat()
 
     response = client.get(f"/logs/?start_date={start_date}&end_date={end_date}")

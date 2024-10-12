@@ -56,7 +56,7 @@ async def add_logs(log: LogCreate, db: Session = Depends(get_db)) -> LogResponse
         db.add(log_entry)
         db.commit()
         db.refresh(log_entry)
-        return LogResponse.from_orm(log_entry)
+        return LogResponse.model_validate(log_entry)
     except Exception as e:
         db.rollback()
         raise HTTPException(status_code=500, detail="Internal Server Error")
