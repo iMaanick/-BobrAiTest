@@ -1,7 +1,6 @@
 from datetime import datetime
-from typing import Annotated
 
-from fastapi import APIRouter, Depends, HTTPException, Query
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from api.models import get_db, Log
