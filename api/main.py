@@ -24,4 +24,11 @@ app.include_router(read_user_logs_router)
 
 @app.get("/")
 async def root() -> Dict[str, str]:
-    return {"message": "Welcome to the API!"}
+    """
+    Endpoint for getting API documentation
+    """
+    return {
+        "message": "Welcome to the API!",
+        "documentation": "http://127.0.0.1:8000/docs"
+
+    }
